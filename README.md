@@ -62,6 +62,10 @@ One service can be used in many transactions.
 
 The service_transactions table links regions and services using foreign keys.
 
+**OUUTPUT**
+<img width="578" height="362" alt="ER DIAGRAM" src="https://github.com/user-attachments/assets/f8936e12-8837-4f6f-a437-82eb5eb514df" />
+
+
 **SQL JOINs IMPLEMENTATION**
 
 **1. INNER JOIN**
