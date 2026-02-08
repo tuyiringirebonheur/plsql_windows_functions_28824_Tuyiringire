@@ -195,3 +195,28 @@ Regions are grouped into four performance categories, enabling targeted improvem
        AVG(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS average_trend
     FROM service_transactions;
+
+STEP 6: RESULTS ANALYSIS
+Descriptive Analysis
+
+The data shows clear differences in service usage across regions, with some regions consistently recording higher transaction volumes.
+
+Diagnostic Analysis
+
+Higher-performing regions may have better internet access, higher population density, or greater awareness of digital services.
+
+Prescriptive Analysis
+
+Irembo company should invest in infrastructure, awareness campaigns, and technical support in underperforming regions to improve overall service usage.
+
+**REFERENCES**
+
+Oracle SQL Documentation
+
+Course lecture notes
+
+Database Development with PL/SQL materials
+
+**INTEGRITY STATEMENT**
+
+All sources were properly cited. The database design, queries, and analysis represent original academic work prepared independently.
