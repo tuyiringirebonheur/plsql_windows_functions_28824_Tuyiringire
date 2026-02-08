@@ -51,6 +51,8 @@ Table 3: Service_Transactions
         CONSTRAINT fk_service FOREIGN KEY (service_id)
         REFERENCES services(service_id)
 );
+**OUTPUT**
+<img width="506" height="403" alt="tables" src="https://github.com/user-attachments/assets/7bdd705d-b834-43e3-9c66-a87c9d1bd6bd" />
 
 **ER Diagram Explanation**
 
@@ -70,7 +72,8 @@ The service_transactions table links regions and services using foreign keys.
         FROM service_transactions t
         INNER JOIN regions r ON t.region_id = r.region_id
         INNER JOIN services s ON t.service_id = s.service_id;
-
+**OUTPUT**
+<img width="396" height="346" alt="INNER JOIN" src="https://github.com/user-attachments/assets/e0862b36-781e-407b-a4eb-c2673b1281b6" />
 
 **Interpretation:**
 This query returns only transactions that are linked to existing regions and services. It ensures that all displayed records are valid and complete.
@@ -83,7 +86,8 @@ This query returns only transactions that are linked to existing regions and ser
         FROM regions r
         LEFT JOIN service_transactions t
         ON r.region_id = t.region_id;
-
+**OUTPUT**
+<img width="385" height="364" alt="LEFT JOIN" src="https://github.com/user-attachments/assets/27af52d3-2863-43a2-91be-8218fa8663fd" />
 
 **Interpretation:**
 Regions with no transactions still appear in the result, allowing management to identify inactive or underserved regions.
@@ -96,7 +100,8 @@ Regions with no transactions still appear in the result, allowing management to 
         FROM service_transactions t
         RIGHT JOIN services s
         ON t.service_id = s.service_id;
-
+**OUTPUT**
+<img width="403" height="361" alt="RIGHT JOIN" src="https://github.com/user-attachments/assets/83e6eda4-c8d3-4d11-bf02-dd81471c18ec" />
 
 **Interpretation:**
 This query highlights services that have little or no usage, which may require promotion or technical review.
@@ -109,7 +114,8 @@ This query highlights services that have little or no usage, which may require p
         FROM regions r
         FULL OUTER JOIN service_transactions t
         ON r.region_id = t.region_id;
-
+**OUTPUT**
+<img width="426" height="403" alt="FULL OUTER JOIN" src="https://github.com/user-attachments/assets/3424a8f5-4664-4e19-b42f-71269b209b42" />
 
 **Interpretation:**
 The result includes all regions and all transactions, whether matched or not, providing a complete overview of data coverage.
@@ -125,7 +131,8 @@ The result includes all regions and all transactions, whether matched or not, pr
     JOIN service_transactions b
     ON a.region_id = b.region_id
     AND a.transaction_id <> b.transaction_id;
-
+**OUTPUT**
+<img width="407" height="397" alt="SELF JOIN" src="https://github.com/user-attachments/assets/b2b70ff4-54c6-43a6-82b7-7dcf65a907a4" />
 
 **Interpretation:**
 This query allows comparison of transaction activity within the same region across different records.
@@ -142,6 +149,9 @@ This query allows comparison of transaction activity within the same region acro
     FROM service_transactions t
     JOIN regions r ON t.region_id = r.region_id
     GROUP BY r.region_name;
+    
+ **OUTPUT**   
+<img width="479" height="316" alt="REAGION RANK" src="https://github.com/user-attachments/assets/99016ea7-399e-470f-944c-c38c6ddc5985" />
 
 
 **Interpretation:**
@@ -157,6 +167,9 @@ Regions are ranked based on their total transaction volume, helping identify top
     FROM service_transactions;
 
 
+**OUTPUT**
+<img width="515" height="372" alt="AGGREGATE WINDOW FUNCTION" src="https://github.com/user-attachments/assets/e10d13a4-1d13-493c-be83-aca2c099ea9a" />
+
 **Interpretation:**
 This query shows how service usage accumulates over time within each region.
 
@@ -168,6 +181,9 @@ This query shows how service usage accumulates over time within each region.
        LAG(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS previous_period
     FROM service_transactions;
+**OUTPUT**
+<img width="518" height="412" alt="NAVIGATE FUNCTION" src="https://github.com/user-attachments/assets/79ebb30f-85dc-4921-b424-cb43ca79a4c5" />
+
 
 
 **Interpretation:**
@@ -183,6 +199,9 @@ By comparing current and previous transaction counts, growth or decline trends c
     FROM service_transactions
     GROUP BY region_id;
 
+**OUTPUT**
+<img width="512" height="331" alt="DISTRIBUTION FUNCTION" src="https://github.com/user-attachments/assets/f1f289ee-4c18-49bf-a20e-ee87bb3f8eb5" />
+
 
 **Interpretation:**
 Regions are grouped into four performance categories, enabling targeted improvement strategies.
@@ -195,6 +214,9 @@ Regions are grouped into four performance categories, enabling targeted improvem
        AVG(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS average_trend
     FROM service_transactions;
+   
+**OUTPUT**
+<img width="526" height="386" alt="AVERAGE" src="https://github.com/user-attachments/assets/b7be333a-4b75-46bb-9c11-003fc511e016" />
 
 **RESULTS ANALYSIS**
 **Descriptive Analysis**
@@ -217,6 +239,3 @@ Course lecture notes
 
 Database Development with PL/SQL online materials
 
-**INTEGRITY STATEMENT**
-
-All sources were properly cited. The database design, queries, and analysis represent original academic work prepared independently.
