@@ -79,11 +79,53 @@ JOIN regions r ON t.region_id = r.region_id
 GROUP BY r.region_name;
 
 /*Aggregate Window Function*/
+
+/*Running Total*/
 SELECT region_id,
        transaction_date,
        transaction_count,
        SUM(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS running_total
+FROM service_transactions;
+
+/*Minimum over*/
+SELECT region_id,
+       transaction_date,
+       transaction_count,
+       MIN(transaction_count)
+       OVER (PARTITION BY region_id) AS min_transactions
+FROM service_transactions;
+
+/*Maximum over*/
+SELECT region_id,
+       transaction_date,
+       transaction_count,
+       MAX(transaction_count)
+       OVER (PARTITION BY region_id) AS max_transactions
+FROM service_transactions;
+
+/*Running Total with ROWS clause*/
+SELECT region_id,
+       transaction_date,
+       transaction_count,
+       SUM(transaction_count)
+       OVER (
+           PARTITION BY region_id
+           ORDER BY transaction_date
+           ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS running_total_rows
+FROM service_transactions;
+
+/*Moving Average with RANGE clause*/
+SELECT region_id,
+       transaction_date,
+       transaction_count,
+       AVG(transaction_count)
+       OVER (
+           PARTITION BY region_id
+           ORDER BY transaction_date
+           RANGE BETWEEN INTERVAL '1' MONTH PRECEDING AND CURRENT ROW
+       ) AS moving_avg_range
 FROM service_transactions;
 
 /*Navigation Function*/
@@ -108,4 +150,5 @@ SELECT region_id,
        AVG(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS avg_trend
 FROM service_transactions;
+
 
