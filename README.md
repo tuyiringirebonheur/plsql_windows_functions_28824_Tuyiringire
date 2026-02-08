@@ -169,13 +169,83 @@ Regions are ranked based on their total transaction volume, helping identify top
        SUM(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS running_total
     FROM service_transactions;
-
-
 **OUTPUT**
 <img width="515" height="372" alt="AGGREGATE WINDOW FUNCTION" src="https://github.com/user-attachments/assets/e10d13a4-1d13-493c-be83-aca2c099ea9a" />
 
 **Interpretation:**
 This query shows how service usage accumulates over time within each region.
+
+**SUM with ROWS frame**
+     
+     SELECT region_id,
+       transaction_date,
+       transaction_count,
+       SUM(transaction_count)
+       OVER (
+           PARTITION BY region_id
+           ORDER BY transaction_date
+           ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW
+       ) AS running_total_rows
+     FROM service_transactions;
+
+**OUTPUT**
+<img width="473" height="400" alt="image" src="https://github.com/user-attachments/assets/2b903359-abfd-48b8-a3ea-031a29be8fc1" />
+
+
+**Interpretation:**
+This query calculates a running total of service transactions for each region over time
+
+**AVERAGE with RANGE frame**
+     
+     SELECT region_id,
+       transaction_date,
+       transaction_count,
+       AVG(transaction_count)
+       OVER (
+           PARTITION BY region_id
+           ORDER BY transaction_date
+           RANGE BETWEEN INTERVAL '1' MONTH PRECEDING AND CURRENT ROW
+       ) AS moving_avg_range
+     FROM service_transactions;
+
+**OUTPUT**
+<img width="512" height="410" alt="AVERAGE WITH RANGE" src="https://github.com/user-attachments/assets/0fd04c2b-d1c5-47d8-b66e-c66f21e3e1b8" />
+
+
+**Interpretation:**
+This query computes the average number of service transactions within a defined time range for each region
+
+ **MINIMUM OVER**    
+     
+     SELECT region_id,
+       transaction_date,
+       transaction_count,
+       MIN(transaction_count)
+       OVER (PARTITION BY region_id) AS min_transactions
+     FROM service_transactions;
+
+**OUTPUT**
+<img width="500" height="402" alt="MINIMUM" src="https://github.com/user-attachments/assets/728a0589-3fde-4ec0-a014-3852bf0c2668" />
+
+**Interpretation:**
+This query identifies the lowest number of transactions recorded in each region, helping determine minimum service usage levels.
+
+**MAXIMUM OVER**
+     
+     SELECT region_id,
+       transaction_date,
+       transaction_count,
+       MAX(transaction_count)
+       OVER (PARTITION BY region_id) AS max_transactions
+     FROM service_transactions;
+
+**OUTPUT**
+<img width="494" height="390" alt="MAXIMUM " src="https://github.com/user-attachments/assets/fa4f52a0-32f2-45dc-a7bf-026f64d9dfa4" />
+
+
+**Interpretation:**
+This query highlights the highest transaction volume recorded in each region, indicating peak service usage.
+
 
 **3. Navigation Function**
 
