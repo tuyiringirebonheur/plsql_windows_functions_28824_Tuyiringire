@@ -1,3 +1,4 @@
+/*Creating tables and inserting sample data for irembo*/
 CREATE TABLE regions (
     region_id NUMBER PRIMARY KEY,
     region_name VARCHAR2(50)
@@ -107,3 +108,4 @@ SELECT region_id,
        AVG(transaction_count)
        OVER (PARTITION BY region_id ORDER BY transaction_date) AS avg_trend
 FROM service_transactions;
+
